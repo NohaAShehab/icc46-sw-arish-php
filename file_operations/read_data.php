@@ -43,14 +43,17 @@ function read_data_to_table($file_name){
 
 
         foreach($data as $line){
+
            # 1:ahmed:abc  ==> [1, ahmed, password ]
             # 1- split line to an array
             $line_data = trim($line);  # remove \n from the end the line
             # explode by : ??
-            $line_data = explode(":", $line_data);
-//            var_dump($line_data); brk();
+            if($line_data != ""){
+                $line_data = explode(":", $line_data);
+    //            var_dump($line_data); brk();
 
-            array_push($users_data, $line_data);
+                array_push($users_data, $line_data);
+            }
 
         }
 

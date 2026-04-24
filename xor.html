@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP XOR Cheatsheet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cheatsheet {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        h2 {
+            color: #2a5298;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin: 25px 0 20px 0;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        h3 {
+            color: #1e3c72;
+            margin: 20px 0 10px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .code-block pre {
+            margin: 0;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .tip {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
+        .badge-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .badge-warning {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .badge-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .property-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .property-card strong {
+            color: #2a5298;
+            font-size: 1.1em;
+        }
+
+        .example {
+            font-family: monospace;
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #d63384;
+        }
+
+        footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #6c757d;
+            border-top: 1px solid #dee2e6;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            th, td {
+                padding: 8px;
+            }
+            
+            .code-block {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cheatsheet">
+            <header>
+                <h1>PHP XOR Cheatsheet</h1>
+                <p>Bitwise & Logical XOR Operations for PHP Developers</p>
+            </header>
+
+            <div class="content">
+                <!-- Operators Overview -->
+                <h2>📊 XOR Operators in PHP</h2>
+                <table>
+                    <thead>
+                        <tr><th>Operator</th><th>Name</th><th>Example</th><th>Result Type</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code class="example">^</code></td><td>Bitwise XOR</td><td><code class="example">$a ^ $b</code></td><td>Integer</td></tr>
+                        <tr><td><code class="example">xor</code></td><td>Logical XOR</td><td><code class="example">$a xor $b</code></td><td>Boolean</td></tr>
+                    </tbody>
+                </table>
+
+                <!-- Bitwise XOR -->
+                <h2>🔢 1. Bitwise XOR (<code>^</code>)</h2>
+                <div class="code-block">
+                    <pre>// Truth table (per bit)
+// 0 ^ 0 = 0
+// 0 ^ 1 = 1
+// 1 ^ 0 = 1
+// 1 ^ 1 = 0
+
+// Examples:
+5 ^ 3;    // 6 (0101 ^ 0011 = 0110)
+true ^ true;   // 0 (treated as 1 ^ 1)
+false ^ true;  // 1</pre>
+                </div>
+
+                <h3>Common Uses:</h3>
+                <div class="code-block">
+                    <pre>// Toggle bits
+$flags ^= FLAG_ACTIVE;  // Flip specific bit
+
+// Quick swap (no temp variable)
+$a ^= $b;
+$b ^= $a;
+$a ^= $b;
+
+// Simple encryption (XOR cipher)
+$encrypted = $plaintext ^ $key;
+$decrypted = $encrypted ^ $key;</pre>
+                </div>
+
+                <!-- Logical XOR -->
+                <h2>⚡ 2. Logical XOR (<code>xor</code>)</h2>
+                <div class="warning">
+                    <strong>⚠️ WARNING:</strong> <code>xor</code> has <strong>LOW PRECEDENCE</strong>!
+                </div>
+
+                <div class="code-block">
+                    <pre>// Truth table:
+// true xor true   = false
+// true xor false  = true
+// false xor true  = true
+// false xor false = false
+
+// Examples:
+$age > 18 xor $has_parent_consent;  // Exactly one must be true
+
+// ⚠️ PRECEDENCE TRAP:
+$result = true xor false;   // $result = true (NOT false!)
+// Because: ($result = true) xor false
+
+// Correct way 1 - parentheses:
+$result = (true xor false);  // $result = false
+
+// Correct way 2 - use ^ for booleans:
+$result = true ^ false;      // $result = false</pre>
+                </div>
+
+                <!-- XOR Properties -->
+                <h2>🎯 3. XOR Properties (Useful Tricks)</h2>
+                <div class="property-grid">
+                    <div class="property-card"><strong>Identity</strong><br><code class="example">$a ^ 0 = $a</code><br>Example: <code class="example">5 ^ 0 = 5</code></div>
+                    <div class="property-card"><strong>Self-inverse</strong><br><code class="example">$a ^ $a = 0</code><br>Example: <code class="example">5 ^ 5 = 0</code></div>
+                    <div class="property-card"><strong>Commutative</strong><br><code class="example">$a ^ $b = $b ^ $a</code><br>Example: <code class="example">5 ^ 3 = 3 ^ 5</code></div>
+                    <div class="property-card"><strong>Associative</strong><br><code class="example">($a ^ $b) ^ $c = $a ^ ($b ^ $c)</code></div>
+                </div>
+
+                <!-- Practical Patterns -->
+                <h2>💡 4. Practical Patterns</h2>
+                <div class="code-block">
+                    <pre>// Find missing number in array [1..n]
+$missing = array_reduce(range(1, $n), fn($carry, $i) => $carry ^ $i, 0);
+$missing ^= array_reduce($array, fn($carry, $num) => $carry ^ $num, 0);
+
+// Check if two values are different (logical XOR for non-bools)
+function xor_values($a, $b) {
+    return !$a != !$b;  // Normalize to booleans first
+}
+
+// Toggle between two values
+$value = $value == $first ? $second : $first;
+// XOR version (only works for numeric flags):
+$value ^= ($first ^ $second);</pre>
+                </div>
+
+                <!-- Common Pitfalls -->
+                <h2>⚠️ 5. Common Pitfalls</h2>
+                <div class="warning">
+                    <strong>❌ DON'T - <code>xor</code> with assignment</strong>
+                    <div class="code-block" style="margin-top: 10px;">
+                        <pre>$status = validate_age($user) xor check_consent($user);</pre>
+                    </div>
+                    
+                    <strong>✅ DO - Use parentheses or split</strong>
+                    <div class="code-block" style="margin-top: 10px;">
+                        <pre>$status = (validate_age($user) xor check_consent($user));
+
+// Or use ^ for booleans
+$status = validate_age($user) ^ check_consent($user);</pre>
+                    </div>
+                </div>
+
+                <!-- Quick Reference -->
+                <h2>📝 Quick Reference</h2>
+                <div class="tip">
+                    <strong>🎯 Quick Rule:</strong> Use <code class="example">^</code> for bitwise/number operations, 
+                    <code class="example">xor</code> for logic with parentheses, or <code class="example">^</code> for boolean logic (cleaner).
+                </div>
+
+                <div class="success">
+                    <strong>✅ XOR Use Cases:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Toggle flags/bitmasks</li>
+                        <li>Simple encryption/decryption</li>
+                        <li>Swap variables without temporary storage</li>
+                        <li>Find missing/duplicate numbers in sequences</li>
+                        <li>Check exactly one condition is true (exclusive conditions)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <footer>
+                <p>PHP XOR Cheatsheet - Quick reference for developers</p>
+                <p style="margin-top: 5px; font-size: 0.9em;">Remember: <code>^</code> for numbers, <code>xor</code> for booleans (with parentheses!)</p>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>
