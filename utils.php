@@ -22,6 +22,11 @@ function generateTitle($title, $color = 'black', $size = 1)
     echo "<h{$size} style='color:{$color}' class='text-center'> {$title} </h{$size}>";
 }
 
+function generate_inner_title($title, $color = 'black', $size = 3)
+{
+    echo "<h{$size} style='color:{$color}' class='text-center'> {$title} </h{$size}>";
+}
+
 
 function drawlines()
 {
