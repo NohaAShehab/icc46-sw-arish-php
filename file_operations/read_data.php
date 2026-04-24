@@ -66,65 +66,9 @@ function read_data_to_table($file_name){
 
 
 $users_data = read_data_to_table("users.txt");
-
-
-
-function table_styles(){
-    echo "
-    <style>
-        .users-table {
-            width: 100%;
-            max-width: 720px;
-            margin: 20px auto;
-            border-collapse: collapse;
-            overflow: hidden;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-            font-family: Arial, sans-serif;
-        }
-        .users-table thead {
-            background: linear-gradient(90deg, #2563eb, #1d4ed8);
-            color: #ffffff;
-        }
-        .users-table th,
-        .users-table td {
-            padding: 12px 16px;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        .users-table tbody tr:nth-child(even) {
-            background-color: #f8fafc;
-        }
-        .users-table tbody tr:hover {
-            background-color: #eef2ff;
-            transition: background-color 0.2s ease;
-        }
-    </style>
-    ";
-}
-
-function draw_table($headers, $data){
-    table_styles();
-    echo "<table class='users-table'> ";
-    echo "<thead> <tr>";
-    foreach($headers as $header){
-        echo "<th>$header</th>";
-    }
-    echo "</tr> </thead>";
-
-    foreach($data as $row){
-        echo "<tr>";
-        foreach($row as $col){
-            echo "<td>$col</td>";
-        }
-        echo "</tr>";
-    }
-
-    echo "</table>";
-}
-
-
 draw_table(["id", "name", "password"], $users_data);
+
+
 
 
 
