@@ -150,7 +150,7 @@ if(isset($_GET['data'])){
 <div class="form-container">
     <h2 class="form-title">Add New Student</h2>
     <p class="form-subtitle">Enter the student information below</p>
-    <form action="save_student.php" method="post">
+    <form action="save_student.php" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="id">ID</label>
             <input type="number" id="id" name="id"
@@ -187,6 +187,11 @@ if(isset($_GET['data'])){
             <label style="color: red">
                 <?php if(isset($errors['password'])) echo $errors['password']; ?>
             </label>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Image</label>
+            <input type="file" id="image" name="image"  >
         </div>
 
         <div class="form-group">

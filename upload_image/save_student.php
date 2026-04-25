@@ -13,6 +13,38 @@ $skill_set ='';
 $errors = [];
 $valid_data = [];
 
+
+/*********************** Upload image
+ *  when you upload image to the sever ,, you can find the image information ?
+ * in $_FILES
+ */
+
+echo "<pre>";
+var_dump($_FILES);
+
+# if the size of the image is suitable for the server configuration, the image will be uploaded
+# ---> the image will be moved to the tmp_name
+
+$image = $_FILES['image'];
+$image_name = time().$image['name'];
+$image_tmp = $image['tmp_name'];
+# you must move the image from tempname to the path
+$saved = move_uploaded_file($image_tmp, "images/{$image_name}" );
+
+var_dump($saved);
+
+echo "</pre>";
+
+
+
+
+
+
+
+
+
+
+
 if(!isset($id) or empty($id)) {
     $errors['id'] = 'ID is required';
 }else{
@@ -57,6 +89,7 @@ if(isset($_POST["skills"])){
 
 if (count($errors) == 0) {
     generateTitle("Student data is correct ");
+    echo "<img src='images/{$image_name}'>";
 
 }else{
 
@@ -65,10 +98,10 @@ if (count($errors) == 0) {
     $errors_data = json_encode($errors);  # convert array to a string
     if(!empty($valid_data)){
         $valid_data = json_encode($valid_data);
-//        header("Location: add_student.php?errors={$errors_data}&data={$valid_data}");
+        header("Location: add_student.php?errors={$errors_data}&data={$valid_data}");
 
     }else{
-//        header("Location: add_student.php?errors={$errors_data}");
+        header("Location: add_student.php?errors={$errors_data}");
 
     }
 }
