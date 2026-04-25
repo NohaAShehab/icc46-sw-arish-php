@@ -1,0 +1,7 @@
+modify the form --> add image to the user...
+
+for the form in lab02 ---> add validation to all fields and
+if the form have errors redirect and show the errors and the data if exists
+
+
+Don't use any AI, if you have error or question ask me
