@@ -6,7 +6,7 @@ require_once("file_operations.php");
 //print_r($_POST);
 
 $id = $_POST['id'];
-$name = $_POST['name'];
+$name = htmlspecialchars($_POST['name']);
 $password = $_POST['password'];
 
 /***

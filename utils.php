@@ -43,6 +43,27 @@ function brk()
 function table_styles(){
     echo "
     <style>
+        .add-user-btn {
+            display: block;
+            width: fit-content;
+            margin: 12px auto 10px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #2563eb, #1d4ed8);
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.2px;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+        }
+        .add-user-btn:hover {
+            color: #ffffff;
+            transform: translateY(-1px);
+            box-shadow: 0 12px 24px rgba(37, 99, 235, 0.30);
+            filter: brightness(1.02);
+        }
         .users-table {
             width: 100%;
             max-width: 900px;
