@@ -73,19 +73,49 @@ var_dump($prices);
 
 
 
+###############################
+generate_inner_title("Arrays  and foreach", "blue");
+
+$courses = ["Python", "PHP", "WordPress"];
+
+
+# access elements of array
+//
+//for($i=0; $i<count($courses); $i++) {
+//    echo $courses[$i]."<br>";
+//}
+//
+
+
+foreach ($courses as $course) {
+        echo "$course<br>";
+}
+
+
+foreach ($courses as $index=> $item) {
+    echo "{$index} - {$item}<br>";
+}
 
 
 
+generate_inner_title("Associative arrays ", "blue");
+
+$info = [
+    "name"=>"Noha",
+    "track" =>"SW Fund",
+    "branch" =>"Arish",
+    "city" => "cairo"
+];
 
 
+foreach ($info as $item) {
+    echo "$item<br>";
+}
 
 
-
-
-
-
-
-
+foreach ($info as $key => $value) {
+    echo "{$key}=>$value<br>";
+}
 
 
 

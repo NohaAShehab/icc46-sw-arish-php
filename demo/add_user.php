@@ -1,6 +1,14 @@
 <?php
 require_once('../utils.php');
 generateTitle("Add User", "Blue");
+
+if(isset($_GET['errors'])){
+
+    $errors = $_GET['errors'];
+    $errors = json_decode($errors, true);
+//    var_dump($errors);
+
+}
 ?>
 
 <style>
@@ -116,16 +124,27 @@ generateTitle("Add User", "Blue");
         <div class="form-group">
             <label for="id">ID</label>
             <input type="number" id="id" name="id" placeholder="Enter user ID" min="1" >
+            <label style="color: red">
+                <?php if(isset($errors['id'])) echo $errors['id']; ?>
+            </label>
+
         </div>
 
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" placeholder="Enter full name" >
+            <label style="color: red">
+                <?php if(isset($errors['name'])) echo $errors['name']; ?>
+            </label>
+
         </div>
 
         <div class="form-group">
             <label for="password">Password</label>
             <input type="password" id="password" name="password" placeholder="Enter password" >
+            <label style="color: red">
+                <?php if(isset($errors['password'])) echo $errors['password']; ?>
+            </label>
         </div>
 
         <button class="submit-btn" type="submit">Save User</button>
