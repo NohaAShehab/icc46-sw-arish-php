@@ -1,14 +1,20 @@
 <?php
 require_once('../utils.php');
 generateTitle("Add User", "Blue");
-
+//var_dump($_GET);
 if(isset($_GET['errors'])){
 
     $errors = $_GET['errors'];
     $errors = json_decode($errors, true);
-//    var_dump($errors);
 
 }
+if(isset($_GET['data'])){
+    $data = $_GET['data'];
+    $data = json_decode($data, true);
+//    var_dump($data);
+}
+
+
 ?>
 
 <style>
@@ -123,7 +129,9 @@ if(isset($_GET['errors'])){
     <form action="save_user.php" method="post">
         <div class="form-group">
             <label for="id">ID</label>
-            <input type="number" id="id" name="id" placeholder="Enter user ID" min="1" >
+            <input type="number" id="id" name="id"
+                   value="<?php if(isset($data['id'])){echo $data['id'];}?>"
+                   placeholder="Enter user ID" min="1" >
             <label style="color: red">
                 <?php if(isset($errors['id'])) echo $errors['id']; ?>
             </label>
@@ -132,7 +140,10 @@ if(isset($_GET['errors'])){
 
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Enter full name" >
+            <input type="text" id="name"
+                   value="<?php if(isset($data['name'])){echo $data['name'];}?>"
+
+                   name="name" placeholder="Enter full name" >
             <label style="color: red">
                 <?php if(isset($errors['name'])) echo $errors['name']; ?>
             </label>

@@ -1,6 +1,6 @@
 <?php
 
-
+require_once("file_operations.php");
 # save data ??
 
 //print_r($_POST);
@@ -15,12 +15,24 @@ $password = $_POST['password'];
 
 
 $errors = [];
+$valid_data = [];
+$all_users = get_all_users("users.txt");
 
 if(!isset($id) or empty($id)) {
     $errors['id'] = 'ID is required';
+}else{
+    $found = search_by_id($all_users, $id);
+    if ($found) {
+        $errors['id'] = 'ID is already in use';
+    }
+    $valid_data['id'] = $id;
+
+
 }
 if(!isset($name) or empty($name)) {
     $errors['name'] = 'Name is required';
+}else{
+    $valid_data['name'] = $name;
 }
 
 if(!isset($password) or empty($password)) {
@@ -52,5 +64,12 @@ if (count($errors) == 0) {
     # errors ---> Associative array ?? we need to send it in the url ??
     # convert the array to be string --->
     $errors_data = json_encode($errors);  # convert array to a string
-    header("Location: add_user.php?errors={$errors_data}");
+    if(!empty($valid_data)){
+        $valid_data = json_encode($valid_data);
+        header("Location: add_user.php?errors={$errors_data}&data={$valid_data}");
+
+    }else{
+        header("Location: add_user.php?errors={$errors_data}");
+
+    }
 }
