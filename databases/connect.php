@@ -188,6 +188,7 @@ insert into students(name, email) values('ahmed', '[ahmed@gmail.com](mailto:ahme
                 <th>name</th>
                 <th>email</th>
                 <th>Image</th>
+                <th> Delete </th>
             </tr>
             </thead>
             <tbody>
@@ -197,6 +198,11 @@ insert into students(name, email) values('ahmed', '[ahmed@gmail.com](mailto:ahme
                 echo "<td> {$row['name']}</td>";
                 echo "<td> {$row['email']}</td>";
                 echo "<td>  <img src='images/{$row['image']}' width='100' height='100'> </td>";
+                echo "<td><form action='delete.php' method='post'>
+                    <input type='hidden' name='id' value='{$row['id']}'>
+                    <input type='hidden' name='image' value='{$row['image']}'>
+                        <input type='submit'  value='Delete'>
+                    </form></td>";
                 echo "</tr>";
             }
             ?>

@@ -1,3 +1,19 @@
+<?php
+if(isset($_GET['errors'])){
+    $errors = $_GET['errors'];
+    $errors = json_decode($errors, true);
+
+//    var_dump($errors);
+
+}
+if(isset($_GET['form_data'])){
+    $form_data = json_decode($_GET['form_data'], true);
+}
+
+//var_dump($form_data);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -117,6 +133,36 @@
 
         .form-body { padding: 2rem; }
 
+        /* ── Global error banner ── */
+        .error-banner {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: var(--red-50);
+            border: 1px solid rgba(163,45,45,0.2);
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 1.5rem;
+            animation: fadeUp 0.3s ease both;
+        }
+
+        .error-banner svg { flex-shrink: 0; margin-top: 1px; }
+
+        .error-banner-text strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--red-600);
+            margin-bottom: 2px;
+        }
+
+        .error-banner-text span {
+            font-size: 12px;
+            color: var(--red-600);
+            opacity: .8;
+        }
+
+        /* ── Fields ── */
         .field {
             margin-bottom: 1.25rem;
             animation: fadeUp 0.5s ease both;
@@ -144,6 +190,8 @@
             background: var(--purple-400);
             flex-shrink: 0;
         }
+
+        .field.has-error label .dot { background: var(--red-600); }
 
         .input-wrap { position: relative; }
 
@@ -182,6 +230,43 @@
         input[type="text"]:focus ~ svg.input-icon,
         input[type="number"]:focus ~ svg.input-icon,
         input[type="email"]:focus ~ svg.input-icon { stroke: var(--purple-400); }
+
+        /* Error state on inputs */
+        .has-error input[type="text"],
+        .has-error input[type="number"],
+        .has-error input[type="email"] {
+            border-color: var(--red-600);
+            background: var(--red-50);
+        }
+
+        .has-error input[type="text"]:focus,
+        .has-error input[type="number"]:focus,
+        .has-error input[type="email"]:focus {
+            border-color: var(--red-600);
+            box-shadow: 0 0 0 4px rgba(163,45,45,0.1);
+        }
+
+        .has-error .input-wrap svg.input-icon { stroke: var(--red-600); }
+
+        /* Inline field error message */
+        .field-error {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--red-600);
+            animation: fadeUp 0.2s ease both;
+        }
+
+        .field-error svg { flex-shrink: 0; }
+
+        /* Error state on upload zone */
+        .has-error .upload-zone {
+            border-color: var(--red-600);
+            background: var(--red-50);
+        }
 
         input::placeholder { color: var(--gray-400); }
 
@@ -295,29 +380,67 @@
         <form method="post" action="save2.php" enctype="multipart/form-data">
             <div class="form-body">
 
-                <div class="field">
+                <?php if (!empty($errors)): ?>
+                    <div class="error-banner">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A32D2D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                        <div class="error-banner-text">
+                            <strong>Please fix the following errors</strong>
+                            <span><?= count($errors) ?> field<?= count($errors) > 1 ? 's' : '' ?> need your attention</span>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+                <div class="field <?= !empty($errors['name']) ? 'has-error' : '' ?>">
                     <label><span class="dot"></span>Full name</label>
                     <div class="input-wrap">
-                        <input type="text" name="name" id="name-field" placeholder="e.g. Noha Hassan" />
+                        <input type="text" name="name" id="name-field"
+                               placeholder="e.g. Noha Hassan"
+                               value="<?= htmlspecialchars($form_data['name'] ?? '') ?>" />
                         <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="8" r="4"/>
                             <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
                         </svg>
                     </div>
+                    <?php if (!empty($errors['name'])): ?>
+                        <div class="field-error">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                            <?= htmlspecialchars($errors['name']) ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
-                <div class="field">
+                <div class="field <?= !empty($errors['email']) ? 'has-error' : '' ?>">
                     <label><span class="dot"></span>Email</label>
                     <div class="input-wrap">
-                        <input type="email" name="email" id="email-field" placeholder="e.g. noha@gmail.com" />
+                        <input type="email" name="email" id="email-field"
+                               placeholder="e.g. noha@gmail.com"
+                               value="<?= htmlspecialchars($form_data['email'] ?? '') ?>" />
                         <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="2" y="4" width="20" height="16" rx="2"/>
                             <polyline points="2,4 12,13 22,4"/>
                         </svg>
                     </div>
+                    <?php if (!empty($errors['email'])): ?>
+                        <div class="field-error">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                            <?= htmlspecialchars($errors['email']) ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
-                <div class="field">
+                <div class="field <?= !empty($errors['image']) ? 'has-error' : '' ?>">
                     <label><span class="dot"></span>Profile image</label>
                     <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
                         <div class="avatar-circle" id="avatar-circle">
@@ -334,6 +457,16 @@
                         </div>
                     </div>
                     <input type="file" name="image" id="file-input" accept="image/*" />
+                    <?php if (!empty($errors['image'])): ?>
+                        <div class="field-error">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                            <?= htmlspecialchars($errors['image']) ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
                 <div class="divider"></div>

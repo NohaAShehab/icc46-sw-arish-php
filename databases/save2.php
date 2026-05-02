@@ -14,53 +14,107 @@ $has_file   = !empty($_FILES["image"]["name"]) && !empty($_FILES["image"]["tmp_n
 $saved      = false;
 $image_new_name = '';
 
-if ($has_file) {
-    $image          = $_FILES["image"];
-    $image_name     = $image["name"];
-    $tmp_name       = $image["tmp_name"];
-    $extension      = pathinfo($image_name, PATHINFO_EXTENSION);
-    $image_new_name = time() . $image_name;
-    $saved          = move_uploaded_file($tmp_name, "images/{$image_new_name}");
-}else{
-    $image_new_name = null;
-}
-############################################ I need to connect to the database to save the student?
-
 $name = $post_data['name'];
 $email = $post_data['email'];
 
-# 1- open connect to insert the data ?
+///// validation ....
+$errors = [];
+$old_data = [];
 
-try{
-    $dsn = "mysql:host=localhost;dbname=iti_arish;port=3306";
-    $user = 'arish';
-    $password = 'Iti123456789_';
-    $db = new PDO($dsn, $user, $password);
-//    var_dump($db);
-//    echo "<h1> DB Here </h1>";
-    #prepared stmt ---> send you a template to fill the data in
-    $query = "insert into `students` (`name`, `email`, `image`)
+if(isset($name) and !empty($name)){
+    $old_data['name'] = $name;
+}else{
+    $errors['name'] = "Name is required";
+}
+
+if (isset($email) and !empty($email)){
+    $old_data['email'] = $email;
+    // before start inserting into database , I need to check if email exists or not ....
+    try{
+        $dsn = "mysql:host=localhost;dbname=iti_arish;port=3306";
+        $user = 'arish';
+        $password = 'Iti123456789_';
+        $db = new PDO($dsn, $user, $password);
+
+        $check_email = "Select count(email) from students where email= :email;";
+        $stmt = $db->prepare($check_email);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $found = $stmt->fetch(PDO::FETCH_NUM); # array 00> the first element --> contains the count
+
+        if($found[0] > 0){
+            $errors['email'] = "Email already exists";
+        }
+
+    }catch (PDOException $e){
+        echo $e->getMessage();
+    }
+
+}else{
+    $errors['email'] = "Email is required";
+}
+
+
+############################################ I need to connect to the database to save the student?
+
+if(count($errors) === 0){
+
+    // upload image if there are no errors.
+    if ($has_file) {
+        $image          = $_FILES["image"];
+        $image_name     = $image["name"];
+        $tmp_name       = $image["tmp_name"];
+        $extension      = pathinfo($image_name, PATHINFO_EXTENSION);
+        $image_new_name = time() . $image_name;
+        $saved          = move_uploaded_file($tmp_name, "images/{$image_new_name}");
+    }else{
+        $image_new_name = null;
+    }
+
+
+    # 1- open connect to insert the data ?
+    try{
+
+        //    var_dump($db);
+        //    echo "<h1> DB Here </h1>";
+        #prepared stmt ---> send you a template to fill the data in
+        $query = "insert into `students` (`name`, `email`, `image`)
                 values (:name, :email, :image_new_name);";
 
-    $stmt = $db->prepare($query);
-    # bind the data to the query ?
-//    var_dump($stmt);
-    $stmt->bindParam(':name', $name);
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':image_new_name', $image_new_name);
+        $stmt = $db->prepare($query);
+        # bind the data to the query ?
+        #         //    var_dump($stmt);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':image_new_name', $image_new_name);
 
-    $stmt->execute();
-    # when you execute the insert query --> execution is ok , you can return with
-    # the inserted id
+        $stmt->execute();
+        # when you execute the insert query --> execution is ok , you can return with
+        # the inserted id
 
-    $insert_id = $db->lastInsertId();
+        $insert_id = $db->lastInsertId();
 
 //    echo "<h1> ID : {$insert_id}</h1>";
 
 
-}catch (Exception $e){
+    }catch (Exception $e){
         echo "<h1 style='color: red;'> {$e->getMessage()} </h1>";
+    }
+
+}else{
+    $errors_data = json_encode($errors);
+    if(count($old_data)> 0) {
+        $form_data = json_encode($old_data);
+        header("Location:form.php?errors=$errors_data&form_data=$form_data");
+    }else{
+        header("Location:form.php?errors=$errors_data");
+    }
 }
+
+
+
+
+
 
 
 
