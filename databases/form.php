@@ -115,9 +115,7 @@
             color: rgba(255,255,255,0.65);
         }
 
-        .form-body {
-            padding: 2rem;
-        }
+        .form-body { padding: 2rem; }
 
         .field {
             margin-bottom: 1.25rem;
@@ -125,7 +123,8 @@
         }
         .field:nth-child(1) { animation-delay: 0.08s; }
         .field:nth-child(2) { animation-delay: 0.14s; }
-        .field:nth-child(3) { animation-delay: 0.20s; }
+        .field:nth-child(3) { animation-delay: 0.18s; }
+        .field:nth-child(4) { animation-delay: 0.22s; }
 
         .field label {
             display: flex;
@@ -157,7 +156,9 @@
             transition: stroke 0.15s;
         }
 
-        input[type="text"], input[type="number"] {
+        input[type="text"],
+        input[type="number"],
+        input[type="email"] {
             width: 100%;
             padding: 11px 14px 11px 42px;
             font-size: 15px;
@@ -170,18 +171,20 @@
             transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
         }
 
-        input[type="text"]:focus, input[type="number"]:focus {
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="email"]:focus {
             border-color: var(--purple-400);
             background: #fff;
             box-shadow: 0 0 0 4px rgba(127,119,221,0.12);
         }
 
         input[type="text"]:focus ~ svg.input-icon,
-        input[type="number"]:focus ~ svg.input-icon { stroke: var(--purple-400); }
+        input[type="number"]:focus ~ svg.input-icon,
+        input[type="email"]:focus ~ svg.input-icon { stroke: var(--purple-400); }
 
         input::placeholder { color: var(--gray-400); }
 
-        /* Upload zone */
         .upload-zone {
             position: relative;
             border: 2px dashed var(--gray-200);
@@ -196,15 +199,8 @@
             overflow: hidden;
         }
 
-        .upload-zone:hover {
-            border-color: var(--purple-400);
-            background: var(--purple-50);
-        }
-
-        .upload-zone.active {
-            border-color: var(--purple-600);
-            background: var(--purple-50);
-        }
+        .upload-zone:hover { border-color: var(--purple-400); background: var(--purple-50); }
+        .upload-zone.active { border-color: var(--purple-600); background: var(--purple-50); }
 
         #file-input { display: none; }
 
@@ -221,12 +217,7 @@
             transition: border-color 0.2s;
         }
 
-        .avatar-circle img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            display: none;
-        }
-
+        .avatar-circle img { width: 100%; height: 100%; object-fit: cover; display: none; }
         .avatar-circle svg { width: 28px; height: 28px; }
 
         .upload-text strong {
@@ -237,10 +228,7 @@
             margin-bottom: 2px;
         }
 
-        .upload-text span {
-            font-size: 12px;
-            color: var(--gray-400);
-        }
+        .upload-text span { font-size: 12px; color: var(--gray-400); }
 
         #file-name-display {
             font-size: 12px;
@@ -250,14 +238,8 @@
             display: none;
         }
 
-        /* Divider */
-        .divider {
-            height: 1px;
-            background: var(--gray-100);
-            margin: 1.75rem 0 1.5rem;
-        }
+        .divider { height: 1px; background: var(--gray-100); margin: 1.75rem 0 1.5rem; }
 
-        /* Submit button */
         .btn-submit {
             width: 100%;
             padding: 13px;
@@ -277,7 +259,6 @@
         .btn-submit:hover { opacity: 0.92; box-shadow: 0 6px 24px rgba(83,74,183,0.35); }
         .btn-submit:active { transform: scale(0.98); }
 
-        /* Toast message */
         .toast {
             display: none;
             margin-top: 1rem;
@@ -289,25 +270,10 @@
             animation: fadeUp 0.3s ease both;
         }
 
-        .toast.success {
-            background: var(--teal-50);
-            border: 1px solid rgba(15,110,86,0.25);
-            color: var(--teal-600);
-        }
+        .toast.success { background: var(--teal-50); border: 1px solid rgba(15,110,86,0.25); color: var(--teal-600); }
+        .toast.error   { background: var(--red-50);  border: 1px solid rgba(163,45,45,0.25); color: var(--red-600); }
 
-        .toast.error {
-            background: var(--red-50);
-            border: 1px solid rgba(163,45,45,0.25);
-            color: var(--red-600);
-        }
-
-        /* Footer */
-        .form-footer {
-            text-align: center;
-            margin-top: 1.25rem;
-            font-size: 12px;
-            color: var(--gray-400);
-        }
+        .form-footer { text-align: center; margin-top: 1.25rem; font-size: 12px; color: var(--gray-400); }
     </style>
 </head>
 <body>
@@ -326,61 +292,57 @@
             <p>Fill in the details below to create your entry.</p>
         </div>
 
-        <form  method="post"  action="save2.php"
-               enctype="multipart/form-data">
-        <div class="form-body">
-            <div class="field">
-                <label><span class="dot"></span>ID number</label>
-                <div class="input-wrap">
-                    <input type="number" id="id-field"
-                           name ='id'
-                           placeholder="e.g. 10042" />
-                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="4" width="18" height="16" rx="2"/>
-                        <line x1="7" y1="9" x2="17" y2="9"/>
-                        <line x1="7" y1="13" x2="13" y2="13"/>
-                    </svg>
-                </div>
-            </div>
+        <form method="post" action="save2.php" enctype="multipart/form-data">
+            <div class="form-body">
 
-            <div class="field">
-                <label><span class="dot"></span>Full name</label>
-                <div class="input-wrap">
-                    <input type="text" name="name"
-                           id="name-field" placeholder="e.g. Noha Hassan" />
-                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="8" r="4"/>
-                        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-                    </svg>
-                </div>
-            </div>
-
-            <div class="field">
-                <label><span class="dot"></span>Profile image</label>
-                <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
-                    <div class="avatar-circle" id="avatar-circle">
-                        <img id="img-preview" src="" alt="Preview" />
-                        <svg viewBox="0 0 24 24" fill="none" stroke="#7F77DD" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" id="avatar-icon">
+                <div class="field">
+                    <label><span class="dot"></span>Full name</label>
+                    <div class="input-wrap">
+                        <input type="text" name="name" id="name-field" placeholder="e.g. Noha Hassan" />
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="8" r="4"/>
                             <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
                         </svg>
                     </div>
-                    <div class="upload-text">
-                        <strong>Click to upload image</strong>
-                        <span>PNG, JPG or WEBP — max 5 MB</span>
-                        <div id="file-name-display"></div>
+                </div>
+
+                <div class="field">
+                    <label><span class="dot"></span>Email</label>
+                    <div class="input-wrap">
+                        <input type="email" name="email" id="email-field" placeholder="e.g. noha@gmail.com" />
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="4" width="20" height="16" rx="2"/>
+                            <polyline points="2,4 12,13 22,4"/>
+                        </svg>
                     </div>
                 </div>
-                <input type="file" name="image" id="file-input" accept="image/*" />
+
+                <div class="field">
+                    <label><span class="dot"></span>Profile image</label>
+                    <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+                        <div class="avatar-circle" id="avatar-circle">
+                            <img id="img-preview" src="" alt="Preview" />
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#7F77DD" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" id="avatar-icon">
+                                <circle cx="12" cy="8" r="4"/>
+                                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                            </svg>
+                        </div>
+                        <div class="upload-text">
+                            <strong>Click to upload image</strong>
+                            <span>PNG, JPG or WEBP — max 5 MB</span>
+                            <div id="file-name-display"></div>
+                        </div>
+                    </div>
+                    <input type="file" name="image" id="file-input" accept="image/*" />
+                </div>
+
+                <div class="divider"></div>
+
+                <input type="submit" class="btn-submit" value="Save profile" />
+                <div class="toast" id="toast"></div>
+
+                <p class="form-footer">All fields are required to submit.</p>
             </div>
-
-            <div class="divider"></div>
-
-            <input  type="submit" class="btn-submit" value="Save profile" >
-            <div class="toast" id="toast"></div>
-
-            <p class="form-footer">All fields are required to submit.</p>
-        </div>
         </form>
     </div>
 </div>

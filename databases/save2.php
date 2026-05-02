@@ -1,4 +1,12 @@
 <?php
+
+error_reporting(E_ALL);
+
+// Force PHP to display the errors on the screen
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
+
 $post_data  = $_POST;
 $files_data = $_FILES;
 
@@ -12,12 +20,52 @@ if ($has_file) {
     $tmp_name       = $image["tmp_name"];
     $extension      = pathinfo($image_name, PATHINFO_EXTENSION);
     $image_new_name = time() . $image_name;
-    try {
-        $saved = move_uploaded_file($tmp_name, "images/{$image_new_name}");
-    }catch (Exception $e){
-        echo $e->getMessage();
-    }
+    $saved          = move_uploaded_file($tmp_name, "images/{$image_new_name}");
+}else{
+    $image_new_name = null;
 }
+############################################ I need to connect to the database to save the student?
+
+$name = $post_data['name'];
+$email = $post_data['email'];
+
+# 1- open connect to insert the data ?
+
+try{
+    $dsn = "mysql:host=localhost;dbname=iti_arish;port=3306";
+    $user = 'arish';
+    $password = 'Iti123456789_';
+    $db = new PDO($dsn, $user, $password);
+//    var_dump($db);
+//    echo "<h1> DB Here </h1>";
+    #prepared stmt ---> send you a template to fill the data in
+    $query = "insert into `students` (`name`, `email`, `image`)
+                values (:name, :email, :image_new_name);";
+
+    $stmt = $db->prepare($query);
+    # bind the data to the query ?
+//    var_dump($stmt);
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':image_new_name', $image_new_name);
+
+    $stmt->execute();
+    # when you execute the insert query --> execution is ok , you can return with
+    # the inserted id
+
+    $insert_id = $db->lastInsertId();
+
+//    echo "<h1> ID : {$insert_id}</h1>";
+
+
+}catch (Exception $e){
+        echo "<h1 style='color: red;'> {$e->getMessage()} </h1>";
+}
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
